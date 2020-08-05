@@ -1,58 +1,27 @@
-import express, { urlencoded, json, static } from "express";
-import logger from "morgan";
-import { connect } from "mongoose";
+const express = require("express");
+const app = express();
+const logger = require("morgan");
+const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 8080;
 
-// const db = require("./models/workout.js");
 
-const app = express();
 
 app.use(logger("dev"));
 
-app.use(
-  urlencoded({
-    extended: true,
-  })
-);
-app.use(json());
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
-app.use(static("public"));
+app.use(express.static("public"));
 
-connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb", {
-  useNewUrlParser: true,
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb", {
+    useNewUrlParser: true
 });
 
-// app.post("/exercise", (req, res) => {
-//     db.create(req.body)
-//         .then(({s
-//             _id
-//         }) => db.findOneAndUpdate({}, {
-//             $push: {
-//                 books: _id
-//             }
-//         }, {
-//             new: true
-//         }))
-//         .then(dbLibrary => {
-//             res.json(dbLibrary);
-//         })
-//         .catch(err => {
-//             res.json(err);
-//         });
-// });
-
-app.get("/exercise", (req, res) => {
-  console.log("we are here");
-  db.find({})
-    .then((dbFitness) => {
-      res.json(dbFitness);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-});
+app.use(require("./routes/exercise-api.js"));
+app.use(require("./routes/stats-api.js"));
 
 app.listen(PORT, () => {
-  console.log(`App running on port ${PORT}!`);
+    console.log(`App running on port ${PORT}!`);
 });
+module.exports=app;
