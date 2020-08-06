@@ -41,8 +41,13 @@ const workoutSchema = new Schema(
                 trim: true,
                 required: "number is Required"
             }
+        }]
+    },
+    {
+        toJSON: {
+          // include any virtual properties when data is requested
+          virtuals: true
         }
-    ]
     });
 
 
