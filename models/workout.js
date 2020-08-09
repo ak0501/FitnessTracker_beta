@@ -28,25 +28,27 @@ const workoutSchema = new Schema(
             },
             weight: {
                 type: Number,
-                trim: true,
-                required: "number is Required"
+                
             },
             reps: {
                 type: Number,
-                trim: true,
-                required: "number is Required"
+                
             },
             sets: {
                 type: Number,
-                trim: true,
-                required: "number is Required"
+                
+            },
+            distance:{
+                type:Number,
+               
+
             }
         }]
     },
     {
         toJSON: {
           // include any virtual properties when data is requested
-          virtuals: true
+        virtuals: true
         }
     });
 
