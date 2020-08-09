@@ -9,6 +9,7 @@ var app        = express();
 app.post("/api/workouts", (req, res) => {
     
     Workout.create({})
+    .then(({type}) =>Workout.findOneAndUpdate({}, { $set: { exercises:type } }, { new: true }))
       .then(dbWorkout => {
         res.json(dbWorkout);
         console.log(dbWorkout);
